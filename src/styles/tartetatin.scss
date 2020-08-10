@@ -1,0 +1,25 @@
+#tartetatin {
+    background-color: rgba(0, 0, 0, .4);
+    height: 100%;
+    width: 100%;
+    z-index: 10000000;
+    position: fixed;
+    top: 0;
+    left: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    &.is-hidden {
+        opacity: 0;
+        visibility: hidden;
+    }
+
+    .tartetatin__content {
+        background-color: white;
+        max-width: 600px;
+        padding: 30px;
+        box-sizing: border-box;
+        width: 100%;
+    }
+}
