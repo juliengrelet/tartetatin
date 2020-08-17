@@ -1,9 +1,14 @@
 import TarteTatin from './Tartetatin';
 
+const lang = {
+    titlePopup: 'Caca Boudin'
+};
+
 const tarteTatin = new TarteTatin({
-    titlePopup: "Je suis le tire personnalisé de la popup",
-    btnCustomServices: true
+    language: 'en',
+    btnCustomServices: true,
+    templateDefault: true,
+    customContent: lang
 });
 
-tarteTatin.init();
 tarteTatin.services();

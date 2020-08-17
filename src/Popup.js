@@ -1,13 +1,17 @@
 export default class Popup {
 
-    constructor(config = {}) {
+    constructor(config, tartetatin, language) {
         this.HTML = null;
         this.config = config;
-    }
-
-    init() {
+        this.tarteTatin = tartetatin;
+        this.language = language;
         this._createHTML();
         this._insertHTMLInBody();
+        this.DOM = {
+            tartetatinContainer: document.getElementById('tartetatin'),
+            tartetatinContent: document.querySelector('.tartetatin__content'),
+            btnCustomServices: document.querySelector('.tartetatin__btn-custom-services')
+        };
         this._bindEvents();
     }
 
@@ -16,14 +20,14 @@ export default class Popup {
         const divContent = document.createElement('div');
         const title = document.createElement('h1'); 
         const btnCustomServices = document.createElement('button');
+        const cookie = true;
         divContainer.setAttribute('id', 'tartetatin');
-        title.innerText = this.config.titlePopup;
+        title.innerText = this.language.titlePopup;
         divContent.classList.add('tartetatin__content');
         btnCustomServices.classList.add('tartetatin__btn-custom-services');
         btnCustomServices.innerText = "Personnaliser";
         divContainer.appendChild(divContent);
         divContent.appendChild(title);
-        const cookie = true;
         if (!cookie) {
             divContainer.classList.add('is-hidden');
         }
@@ -33,22 +37,27 @@ export default class Popup {
         this.HTML = divContainer;
     }
     
-    _closePopup() {
-
+    closePopup() {
+        if (!this.DOM.tartetatinContainer.classList.contains('is-hidden')) {
+            this.DOM.tartetatinContainer.classList.add('is-hidden');
+        }
     }
         
     _bindEvents() {
-        const btnCustomServices = document.querySelector('.tartetatin__btn-custom-services');
-        const tartetatinContainer = document.querySelector('#tartetatin');
-
-        btnCustomServices.addEventListener('click', function() {
-            window.tartetatin.prototype.accept();
+        this.DOM.btnCustomServices.addEventListener('click', () => {
+            this.tarteTatin.accept();
+            this.closePopup();
         });
 
-        tartetatinContainer.addEventListener('click', () => {
-            if (!tartetatinContainer.classList.contains('is-hidden')) {
-                tartetatinContainer.classList.add('is-hidden');
-            }
+        this.DOM.tartetatinContent.addEventListener('click', e => e.stopPropagation());
+        
+        this.DOM.tartetatinContainer.addEventListener('click', (e) => {
+            e.stopPropagation();
+            this.closePopup();
+        });
+
+        this.DOM.tartetatinContainer.addEventListener('click', () => {
+            this.closePopup();
         });
     }
 

@@ -1,19 +1,41 @@
 import './styles/tartetatin.scss';
 import Popup from './Popup';
+import Languages from './lang/index';
+import CookiesManager from './CookiesManager';
 
 export default class TarteTatin {
 
     constructor(config = {}) {
+        // set the config
         this.config = {
-            titlePopup: 'Ce site utilise des cookies et vous donne le contrôle sur ce que vous souhaitez activer',
+            language: 'fr',
             btnCustomServices: true,
+            templateDefault: true,
             ...config
         };
-        this.popup = new Popup(this.config);
+        // check if the key "templateDefault" is true 
+        if (this.config.templateDefault) {
+            this._useDefaultTemplate(this.config, this, this._setLanguage());
+        }
+
+        this.cookies = new CookiesManager();
+        this.cookies.set('test');
+
+        console.log('this.config : ', this.config);
     }
 
-    init() {
-        this.popup.init();
+    _useDefaultTemplate(config, instance, language) {
+        this.popup = new Popup(config, instance, language);
+    }
+
+    _setLanguage() {
+        let currentLanguage = Languages.fr;
+        for (const language in Languages) {
+            if (language === this.config.language) {
+                currentLanguage = Languages[language];
+            }
+        }
+        return currentLanguage;
     }
 
     accept() {
@@ -25,5 +47,3 @@ export default class TarteTatin {
     }
 
 }
-
-window.tartetatin = TarteTatin;
